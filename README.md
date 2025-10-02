@@ -1,1 +1,0 @@
-# nutmeghack-vote-system
