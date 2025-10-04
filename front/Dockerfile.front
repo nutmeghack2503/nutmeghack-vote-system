@@ -1,0 +1,15 @@
+FROM node:20-bookworm-slim
+
+# 作業ディレクトリを設定
+WORKDIR /app
+
+# 依存だけ先にインストールしてキャッシュを効かせる
+# ※ package-lock.json をコミットしている前提（再現性・速度のため推奨）
+COPY package.json package-lock.json ./
+RUN npm ci --no-audit --no-fund
+
+# Next.jsのデフォルトポートを公開
+EXPOSE 3000
+
+# 開発サーバを 0.0.0.0:3000 で待受
+CMD ["npm", "run", "dev", "--", "-H", "0.0.0.0", "-p", "3000"]

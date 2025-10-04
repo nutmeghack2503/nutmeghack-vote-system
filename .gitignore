@@ -1,0 +1,28 @@
+# Node / Next
+node_modules/
+.next/
+.out/
+dist/
+.cache/
+.turbo/
+.vercel/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# OS/Editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Docker（任意、Gitに含めたくないなら）
+# docker-compose.override.yml
