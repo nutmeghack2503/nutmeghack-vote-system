@@ -1,14 +1,26 @@
-version: "3.8"
 services:
   app:
     build:
       context: ./front
-      dockerfile: ../Dockerfile
+      dockerfile: ./Dockerfile.front
+    working_dir: /app            # コンテナ内の作業ディレクトリを固定（コマンドの実行パスを安定化）
     volumes:
+      # ソースコードをそのままマウント（ホットリロード用）
       - ./front:/app
-      - /app/node_modules
-      - /app/.next
+      # 下2つは「名前付きボリューム」：
+      #  - bind マウント（./front:/app）でホスト側に node_modules/.next が無い場合でも
+      #    “空ディレクトリで上書きして依存やキャッシュが消える事故”を防ぐ
+      #  - コンテナ再作成でも依存/ビルドキャッシュを維持でき、起動が安定＆速い
+      - node_modules:/app/node_modules
+      - next_cache:/app/.next
     ports:
       - "3000:3000"
-    tty: true
-    stdin_open: true
+    environment:
+      # Vercel/Next の匿名テレメトリを無効化
+      # - ビルド/起動ログが少し静かになる
+      # - ネットワークに出る余分な計測リクエストを抑止
+      - NEXT_TELEMETRY_DISABLED=1
+
+volumes:
+  node_modules:
+  next_cache:

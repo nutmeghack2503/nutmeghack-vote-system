@@ -1,7 +1,17 @@
-Dockerfile
-docker-compose.yml
-.dockerignore
-node_modules
-.next
+# まず全除外
+**
+# 必要なものだけ戻す（順序重要）
+!front/**
+!Dockerfile.front
+
+# front 配下でも生成物は送らない
+front/node_modules
+front/.next
+front/.turbo
+front/.cache
+front/.vercel
+front/.env*
+# VCS・メタは不要
 .git
-README.md
+.gitignore
+
